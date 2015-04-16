@@ -44,5 +44,7 @@ if __name__ == '__main__':
     if sys.argv[0]:
         app_id = sys.argv[0]
     autoit_cmd = "./AutoIt3.exe install_app.au3 %s 0" % app_id
-    ssh_exec_cmd(autoit_cmd)
+    print ssh_exec_cmd(autoit_cmd)
+    import time
+    time.sleep(10)
     print "done"
