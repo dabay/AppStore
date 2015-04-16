@@ -40,7 +40,7 @@ def ssh_exec_cmd(cmd):
 if __name__ == '__main__':
     # ssh nardev@172.16.88.15 -t -t -i ~/.ssh/id_rsa ./AutoIt3.exe install_app.au3 598217338 0
     app_id = 598217338
-    if sys.argv[1]:
+    if len(sys.argv) > 1:
         app_id = sys.argv[1]
     autoit_cmd = "./AutoIt3.exe install_app.au3 %s 0" % app_id
     print ssh_exec_cmd(autoit_cmd)
