@@ -18,14 +18,12 @@ def pre_exec():
 
 
 def exec_cmd(cmd, *args):
-    cmd_list = [cmd]
-    if args:
-        cmd_list.extend(args)
+    cmd_str = cmd + " " + " ".join(args)
     res = subprocess.Popen(
-        cmd_list, shell=True, bufsize=2048,
+        cmd_str, shell=True, bufsize=2048,
         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=pre_exec
     )
-    print cmd_list
+    print cmd_str
     return res.communicate()[0]
 
 
