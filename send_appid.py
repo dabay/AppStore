@@ -25,6 +25,7 @@ def exec_cmd(cmd, *args):
         cmd_list, shell=True, bufsize=2048,
         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=pre_exec
     )
+    print cmd_list
     return res.communicate()[0]
 
 
