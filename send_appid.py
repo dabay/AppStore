@@ -32,7 +32,7 @@ def ssh_exec_cmd(cmd):
     Putting double -t is crucial to prevent various status messages popping up
     """
     ssh_command_prefix = str(
-        "ssh {0}@{1} -t -t -p %i -i ~/.ssh/id_rsa "
+        "ssh {0}@{1} -t -t -i ~/.ssh/id_rsa "
     ).format(WORKER_USER, WORKER_IP)
     return exec_cmd(ssh_command_prefix, cmd)
 
