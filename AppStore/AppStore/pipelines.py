@@ -30,7 +30,7 @@ class AppstoreItemPipeline(object):
 
     def row_count_in_table(self, app_id):
         try:
-            sql = ("""select count(*) from app_id where app_id='%(app_id)s'""")
+            sql = ("""select count(*) from app_id where app_id='%s'""")
             self.cursor.execute(sql, [app_id])
             result = self.cursor.fetchone()
             if result:
