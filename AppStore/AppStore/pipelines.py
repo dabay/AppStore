@@ -41,14 +41,14 @@ class AppstoreItemPipeline(object):
             else:
                 return 0
         except MySQLdb.Error, ex:
-            print "Error %d: %s" % (ex.args[0], ex.args[1])
+            print "Error {}: {}".format(ex.args[0], ex.args[1])
         return 0
 
     def process_item(self, item, spider):
         item_dict = dict(item)
         item_dict["app_id"] = self.get_app_id(item_dict["url"])
         if self.row_count_in_table(item_dict["app_id"]) > 0:
-            raise DropItem("Already in DB: {}" % (item_dict["app_id"]))
+            raise DropItem("Already in DB: {}".format(item_dict["app_id"]))
         try:
             sql = ("""
                 INSERT INTO app_id(app_id, category,name, url)
@@ -57,5 +57,5 @@ class AppstoreItemPipeline(object):
             self.cursor.execute(sql, item_dict)
             self.conn.commit()
         except MySQLdb.Error, ex:
-            raise DropItem("Error {}: {}" % (ex.args[0], ex.args[1]))
+            raise DropItem("Error {}: {}".format(ex.args[0], ex.args[1]))
         return item
