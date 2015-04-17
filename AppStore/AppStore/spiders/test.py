@@ -32,13 +32,30 @@ class TestSpider(scrapy.Spider):
         # https://itunes.apple.com/ie/genre/ios-books/id6018?mt=8&letter=A&page=1
         for category in category_url_hash.keys():
             for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ*":
-                url = "{0}&letter={1}&page=1".format(category_url_hash[category], c)
-                print url
-                # yield Request(
-                #     url,
-                #     callback=self.parse_pages,
-                #     meta={'category': category}
-                # )
+                url = "{0}&letter={1}&page=1#page".format(category_url_hash[category], c)
+                yield Request(
+                    url,
+                    callback=self.parse_pages,
+                    meta={'category': category}
+                )
+                # TODO: remove return
+                return
 
     def parse_pages(self, response):
-        pass
+        # TODO: uncomment
+        # for sel in response.xpath('//div[@class="column first"]/ul/li/a'):
+        #     name = sel.xpath('text()').extract()[0]
+        #     url = sel.xpath('@href').extract()[0]
+        # for sel in response.xpath('//div[@class="column"]/ul/li/a'):
+        #     name = sel.xpath('text()').extract()[0]
+        #     url = sel.xpath('@href').extract()[0]
+        # for sel in response.xpath('//div[@class="column last"]/ul/li/a'):
+        #     name = sel.xpath('text()').extract()[0]
+        #     url = sel.xpath('@href').extract()[0]
+        print response.url
+        for url in response.xpath('//ul[@class="list paginate"][1]/li[position()=last()]/a[text()="Next"]/@href'):
+            yield Request(
+                url,
+                callback=self.parse_pages,
+                meta={'category': response.meta['category']}
+            )
