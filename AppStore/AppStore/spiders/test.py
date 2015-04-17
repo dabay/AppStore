@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from ..items import CategoryItem
+from ..items import AppstoreItem
 from scrapy.http import Request
+from scrapy.contrib.loader import ItemLoader
 
 
 class TestSpider(scrapy.Spider):
@@ -14,15 +15,8 @@ class TestSpider(scrapy.Spider):
     def parse(self, response):
         category_url_hash = {}
         # https://itunes.apple.com/ie/genre/ios-books/id6018?mt=8
-        for sel in response.xpath('//ul[@class="list column first"]/li/a'):
-            category = sel.xpath('text()').extract()[0]
-            url = sel.xpath('@href').extract()[0]
-            category_url_hash[category] = url
-        for sel in response.xpath('//ul[@class="list column"]/li/a'):
-            category = sel.xpath('text()').extract()[0]
-            url = sel.xpath('@href').extract()[0]
-            category_url_hash[category] = url
-        for sel in response.xpath('//ul[@class="list column last"]/li/a'):
+        xpath_category = '//ul[@class="list column first" or @class="list column" or @class="list column last"]/li/a'
+        for sel in response.xpath(xpath_category):
             category = sel.xpath('text()').extract()[0]
             url = sel.xpath('@href').extract()[0]
             category_url_hash[category] = url
@@ -42,20 +36,16 @@ class TestSpider(scrapy.Spider):
 
     def parse_pages(self, response):
         # TODO: uncomment
-        # for sel in response.xpath('//div[@class="column first"]/ul/li/a'):
-        #     name = sel.xpath('text()').extract()[0]
-        #     url = sel.xpath('@href').extract()[0]
-        # for sel in response.xpath('//div[@class="column"]/ul/li/a'):
-        #     name = sel.xpath('text()').extract()[0]
-        #     url = sel.xpath('@href').extract()[0]
-        # for sel in response.xpath('//div[@class="column last"]/ul/li/a'):
-        #     name = sel.xpath('text()').extract()[0]
-        #     url = sel.xpath('@href').extract()[0]
-        print response.url
-        xpath_next_page = '//ul[@class="list paginate"][1]/li[position()=last()]/a[text()="Next"]/@href'
-        for url in response.xpath(xpath_next_page).extract():
-            yield Request(
-                url,
-                callback=self.parse_pages,
-                meta={'category': response.meta['category']}
-            )
+        item_loader = ItemLoader(item=AppstoreItem())
+        xpath_item = '//div[@class="column first" or @class="column" or @class="column last"]/ul/li/a'
+        for sel in response.xpath(xpath_item):
+            item_loader.add_value('name', sel.xpath('text()').extract()[0])
+            item_loader.add_value('url', sel.xpath('@href').extract()[0])
+        yield item_loader.load_item()
+        # xpath_next_page = '//ul[@class="list paginate"][1]/li[position()=last()]/a[text()="Next"]/@href'
+        # for url in response.xpath(xpath_next_page).extract():
+        #     yield Request(
+        #         url,
+        #         callback=self.parse_pages,
+        #         meta={'category': response.meta['category']}
+        #     )
