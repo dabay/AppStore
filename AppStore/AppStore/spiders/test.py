@@ -44,6 +44,7 @@ class TestSpider(scrapy.Spider):
             item_loader = ItemLoader(item=AppstoreItem())
             item_loader.add_value('name', sel.xpath('text()').extract()[0])
             item_loader.add_value('url', sel.xpath('@href').extract()[0])
+            item_loader.add_value('category', response.meta['category'])
             yield item_loader.load_item()
         # xpath_next_page = '//ul[@class="list paginate"][1]/li[position()=last()]/a[text()="Next"]/@href'
         # for url in response.xpath(xpath_next_page).extract():

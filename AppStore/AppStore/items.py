@@ -13,6 +13,7 @@ class AppstoreItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     app_id = scrapy.Field(output_processor=TakeFirst())
+    category = scrapy.Field(output_processor=TakeFirst())
     name = scrapy.Field(output_processor=TakeFirst())
     url = scrapy.Field(output_processor=TakeFirst())
 
