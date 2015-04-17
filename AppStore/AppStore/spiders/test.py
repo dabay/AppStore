@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from ..items import CategoryItem
 
 
 class TestSpider(scrapy.Spider):
@@ -10,4 +11,9 @@ class TestSpider(scrapy.Spider):
     )
 
     def parse(self, response):
-        pass
+        for sel in response.xpath('//ul[@class="list column"]/li/a'):
+            print "xxxx"
+            item = CategoryItem()
+            item['category_name'] = sel.xpath('text()').extract()
+            item['category_url'] = sel.xpath('@href').extract()
+            yield item
