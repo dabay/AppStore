@@ -15,7 +15,7 @@ NEWSPIDER_MODULE = 'AppStore.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'AppStore (+http://www.yourdomain.com)'
-DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 2
 RANDOMIZE_DOWNLOAD_DELAY = True
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36'
 COOKIES_ENABLED = False

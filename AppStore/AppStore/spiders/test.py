@@ -30,12 +30,9 @@ class TestSpider(scrapy.Spider):
                     callback=self.parse_pages,
                     meta={'category': category}
                 )
-                # TODO: remove return
-                break
-            break
+
 
     def parse_pages(self, response):
-        # TODO: uncomment
         xpath_item = str(
             '//div[@id="selectedcontent"]/div[@class="column first" or @class="column" '
             'or @class="column last"]/ul/li/a'
@@ -46,10 +43,10 @@ class TestSpider(scrapy.Spider):
             item_loader.add_value('url', sel.xpath('@href').extract()[0])
             item_loader.add_value('category', response.meta['category'])
             yield item_loader.load_item()
-        # xpath_next_page = '//ul[@class="list paginate"][1]/li[position()=last()]/a[text()="Next"]/@href'
-        # for url in response.xpath(xpath_next_page).extract():
-        #     yield Request(
-        #         url,
-        #         callback=self.parse_pages,
-        #         meta={'category': response.meta['category']}
-        #     )
+        xpath_next_page = '//ul[@class="list paginate"][1]/li[position()=last()]/a[text()="Next"]/@href'
+        for url in response.xpath(xpath_next_page).extract():
+            yield Request(
+                url,
+                callback=self.parse_pages,
+                meta={'category': response.meta['category']}
+            )
