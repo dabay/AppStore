@@ -11,8 +11,19 @@ class TestSpider(scrapy.Spider):
     )
 
     def parse(self, response):
+        for sel in response.xpath('//ul[@class="list column first"]/li/a'):
+            item = CategoryItem()
+            item['category_name'] = sel.xpath('text()').extract()
+            item['category_url'] = sel.xpath('@href').extract()
+            yield item
+
         for sel in response.xpath('//ul[@class="list column"]/li/a'):
-            print "xxxx"
+            item = CategoryItem()
+            item['category_name'] = sel.xpath('text()').extract()
+            item['category_url'] = sel.xpath('@href').extract()
+            yield item
+
+        for sel in response.xpath('//ul[@class="list column last"]/li/a'):
             item = CategoryItem()
             item['category_name'] = sel.xpath('text()').extract()
             item['category_url'] = sel.xpath('@href').extract()
