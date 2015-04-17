@@ -33,6 +33,7 @@ class TestSpider(scrapy.Spider):
         for category in category_url_hash.keys():
             for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ*":
                 url = "{0}&letter={1}&page=1#page".format(category_url_hash[category], c)
+                print url
                 yield Request(
                     url,
                     callback=self.parse_pages,
