@@ -11,4 +11,8 @@ import scrapy
 class AppstoreItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    app_id = scrapy.Field()
+
+class CategoryItem(scrapy.Item):
+    category_name = scrapy.Field()
+    category_url = scrapy.Field()

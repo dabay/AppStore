@@ -23,13 +23,12 @@ def exec_cmd(cmd, *args):
         cmd_str, shell=True, bufsize=2048,
         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=pre_exec
     )
-    print cmd_str
     return res.communicate()[0]
 
 
 def ssh_exec_cmd(cmd):
     """
-    Putting double -t is crucial to prevent various status messages popping up
+    Put double -t is crucial to prevent various status messages popping up
     """
     ssh_command_prefix = str(
         "ssh {0}@{1} -t -t -i ~/.ssh/id_rsa "
@@ -43,7 +42,5 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         app_id = sys.argv[1]
     autoit_cmd = "./AutoIt3.exe install_app.au3 %s 0" % app_id
-    print ssh_exec_cmd(autoit_cmd)
-    import time
-    time.sleep(10)
+    ssh_exec_cmd(autoit_cmd)
     print "done"
