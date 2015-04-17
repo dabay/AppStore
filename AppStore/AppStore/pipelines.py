@@ -28,6 +28,8 @@ class AppstoreItemPipeline(object):
         return int(m.group(1))
 
     def process_item(self, item, spider):
+        print item
+        print "-" * 100
         item_dict = dict(item)
         item_dict["app_id"] = self.get_app_id(item_dict["url"])
         try:
