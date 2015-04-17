@@ -31,7 +31,6 @@ class TestSpider(scrapy.Spider):
         for category in category_url_hash.keys():
             for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ*":
                 url = "{0}&letter={1}&page=1#page".format(category_url_hash[category], c)
-                print url
                 yield Request(
                     url,
                     callback=self.parse_pages,
@@ -53,7 +52,8 @@ class TestSpider(scrapy.Spider):
         #     name = sel.xpath('text()').extract()[0]
         #     url = sel.xpath('@href').extract()[0]
         print response.url
-        for url in response.xpath('//ul[@class="list paginate"][1]/li[position()=last()]/a[text()="Next"]/@href'):
+        xpath_next_page = '//ul[@class="list paginate"][1]/li[position()=last()]/a[text()="Next"]/@href'
+        for url in response.xpath(xpath_next_page).extract():
             yield Request(
                 url,
                 callback=self.parse_pages,
