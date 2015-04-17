@@ -29,6 +29,7 @@ class TestSpider(scrapy.Spider):
         self.generate_requests_for_category(category_url_hash)
 
     def generate_requests_for_category(self, category_url_hash):
+        print category_url_hash
         # https://itunes.apple.com/ie/genre/ios-books/id6018?mt=8&letter=A&page=1
         for category in category_url_hash.keys():
             for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ*":
