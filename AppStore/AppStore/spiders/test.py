@@ -37,7 +37,10 @@ class TestSpider(scrapy.Spider):
     def parse_pages(self, response):
         # TODO: uncomment
         item_loader = ItemLoader(item=AppstoreItem())
-        xpath_item = '//div[@class="column first" or @class="column" or @class="column last"]/ul/li/a'
+        xpath_item = str(
+            '//div[@id="selectedcontent"]/div[@class="column first" or @class="column" '
+            'or @class="column last"]/ul/li/a'
+        )
         for sel in response.xpath(xpath_item):
             item_loader.add_value('name', sel.xpath('text()').extract()[0])
             item_loader.add_value('url', sel.xpath('@href').extract()[0])
