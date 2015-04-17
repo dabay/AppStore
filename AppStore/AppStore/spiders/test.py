@@ -42,8 +42,8 @@ class TestSpider(scrapy.Spider):
             'or @class="column last"]/ul/li/a'
         )
         for sel in response.xpath(xpath_item):
-            item_loader.add_value('name', sel.xpath('text()').extract()[0])
-            item_loader.add_value('url', sel.xpath('@href').extract()[0])
+            item_loader.add_value('name', sel.xpath('text()').extract())
+            item_loader.add_value('url', sel.xpath('@href').extract())
         yield item_loader.load_item()
         # xpath_next_page = '//ul[@class="list paginate"][1]/li[position()=last()]/a[text()="Next"]/@href'
         # for url in response.xpath(xpath_next_page).extract():
