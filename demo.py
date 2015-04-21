@@ -94,9 +94,10 @@ def get_app_item(app_url):
 
 
 def show_app_item(app):
+    x = lambda s: Color('{autogreen}%s{/autogreen}' % s)
     table_data = [
-        ['{0: <20}'.format('Title'),Color('{autoblue}%s{/autoblue}' % app.title)],
-        ['{0: <20}'.format('URL'), Color('{autocyan}%s{/autocyan}' % app.url)],
+        ['{0: <20}'.format('Title'),x(app.title)],
+        ['{0: <20}'.format('URL'), Color('{autogreen}%s{/autogreen}' % app.url)],
         ['{0: <20}'.format('Price'), Color('{autogreen}%s{/autogreen}' % app.price)],
         ['{0: <20}'.format('Category'),Color('{autogreen}%s{/autogreen}' % app.category)],
         ['{0: <20}'.format('Release'),Color('{autogreen}%s{/autogreen}' % app.release)],
@@ -105,7 +106,7 @@ def show_app_item(app):
         ['{0: <20}'.format('Language'),Color('{autogreen}%s{/autogreen}' % app.language)],
         ['{0: <20}'.format('Developer'),Color('{autogreen}%s{/autogreen}' % app.developer)],
         ['{0: <20}'.format('Compatibility'),Color('{autogreen}%s{/autogreen}' % app.compatibility)],
-        ['{0: <20}'.format('Description:'),Color('{autocyan}%s{/autocyan}' % app.description)],
+        ['{0: <20}'.format('Description:'),Color('{autogreen}%s{/autogreen}' % app.description)],
     ]
     table = SingleTable(table_data)
     table.inner_column_border = False
