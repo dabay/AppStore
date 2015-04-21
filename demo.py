@@ -9,6 +9,7 @@ import sys
 import subprocess
 import signal
 import os
+import re
 
 
 DEMO_URL = 'https://itunes.apple.com/ie/app/myvideo-mobile-tv-hd/id557524762?mt=8'
@@ -144,7 +145,7 @@ def list_files(folder_path):
 
 
 def confirm_to_continue(question):
-    print Color('{autoblue}%s{/autoblue}'%question)
+    print Color('{autoyellow}%s{/autoyellow}'%question)
     answer = raw_input("Continue? (Y/n):")
     if answer.lower() == "n":
         print "Quit!"
@@ -152,7 +153,7 @@ def confirm_to_continue(question):
 
 
 def show_message(message):
-    print Color('{autoblue}%s{/autoblue}'%message)
+    print Color('{autoyellow}%s{/autoyellow}'%message)
 
 
 if __name__ == '__main__':
