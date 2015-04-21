@@ -45,6 +45,13 @@ class AppstoreItemPipeline(object):
         return 0
 
     def process_item(self, item, spider):
+        if spider.name == "app_list":
+            self.process_list_item(item, spider)
+        elif spider.name == "xxxx":
+            return item
+        return item
+
+    def process_list_item(self, item, spider):
         item_dict = dict(item)
         item_dict["app_id"] = self.get_app_id(item_dict["url"])
         if self.row_count_in_table(item_dict["app_id"]) > 0:

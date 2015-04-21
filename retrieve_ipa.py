@@ -11,6 +11,7 @@ WORKER_IP = "172.16.88.15"
 IPA_REMOTE_FOLDER = "/cygdrive/c/Users/nardev/Music/iTunes/iTunes\ Media/Mobile\ Applications/"
 IPA_LOCAL_FOLDER = "~/ipa/"
 
+
 def pre_exec():
     """
     Ignore the SIGINT signal by setting the handler to the standard signal handler SIG_IGN.
