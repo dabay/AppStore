@@ -34,6 +34,6 @@ def scp_cmd(cmd):
 
 
 if __name__ == '__main__':
-    scp_sub_cmd = '%s@%s:"%s*" %s'.format(WORKER_USER, WORKER_IP,IPA_REMOTE_FOLDER, IPA_LOCAL_FOLDER)
+    scp_sub_cmd = '{}@{}:"{}*" {}'.format(WORKER_USER, WORKER_IP,IPA_REMOTE_FOLDER, IPA_LOCAL_FOLDER)
     scp_cmd(scp_sub_cmd)
     print "Done"
