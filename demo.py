@@ -16,7 +16,7 @@ DEMO_URL = 'https://itunes.apple.com/ie/app/myvideo-mobile-tv-hd/id557524762?mt=
 WORKER_USER = "nardev"
 WORKER_IP = "172.16.88.15"
 IPA_REMOTE_FOLDER = "/cygdrive/c/Users/nardev/Music/iTunes/iTunes\ Media/Mobile\ Applications/"
-IPA_LOCAL_FOLDER = "/cdag/home/ipa/"
+IPA_LOCAL_FOLDER = "/home/cdag/ipa/"
 
 
 class AppItem(object):
@@ -154,6 +154,7 @@ def confirm_to_continue(question):
 
 def show_message(message):
     print Color('{autoyellow}%s{/autoyellow}'%message)
+    print
 
 
 if __name__ == '__main__':
