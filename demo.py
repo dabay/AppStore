@@ -16,7 +16,7 @@ DEMO_URL = 'https://itunes.apple.com/ie/app/myvideo-mobile-tv-hd/id557524762?mt=
 WORKER_USER = "nardev"
 WORKER_IP = "172.16.88.15"
 IPA_REMOTE_FOLDER = "/cygdrive/c/Users/nardev/Music/iTunes/iTunes\ Media/Mobile\ Applications/"
-IPA_LOCAL_FOLDER = "~/ipa/"
+IPA_LOCAL_FOLDER = "/cdag/home/ipa/"
 
 
 class AppItem(object):
