@@ -29,6 +29,7 @@ def exec_cmd(cmd, *args):
 
 def scp_cmd(cmd):
     ssh_command_prefix = str("scp -i ~/.ssh/id_rsa ")
+    print ssh_command_prefix + cmd
     return exec_cmd(ssh_command_prefix, cmd)
 
 
