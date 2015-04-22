@@ -1,15 +1,17 @@
 # -*- coding: utf8 -*-
 __author__ = 'Xiaohuan_Wang'
 
-from lxml import html
-import requests
-from colorclass import Color
-from terminaltables import SingleTable
 import sys
 import subprocess
 import signal
 import os
 import re
+
+from lxml import html
+import requests
+from colorclass import Color
+from terminaltables import SingleTable
+from requests.exceptions import RequestException
 
 
 DEMO_URL = 'https://itunes.apple.com/ie/app/myvideo-mobile-tv-hd/id557524762?mt=8'
@@ -20,20 +22,19 @@ IPA_LOCAL_FOLDER = "/home/cdag/ipa/"
 
 
 class AppItem(object):
-
     def __init__(self):
-        id = "Unknown"
-        title = "Unknown"
-        category = "Unknown"
-        url = "Unknown"
-        developer = "Unknown"
-        price = "Unknown"
-        release = "Unknown"
-        version = "Unknown"
-        size = "Unknown"
-        language = "Unknown"
-        compatibility = "Unknown"
-        description = "Unknown"
+        self.id = "Unknown"
+        self.title = "Unknown"
+        self.category = "Unknown"
+        self.url = "Unknown"
+        self.developer = "Unknown"
+        self.price = "Unknown"
+        self.release = "Unknown"
+        self.version = "Unknown"
+        self.size = "Unknown"
+        self.language = "Unknown"
+        self.compatibility = "Unknown"
+        self.description = "Unknown"
 
 
 def pre_exec():
@@ -71,63 +72,48 @@ def get_app_id(url):
 
 
 def get_app_item(app_url):
-    app = AppItem()
-    app.url = app_url
+    a = AppItem()
+    a.url = app_url
     try:
-        page = requests.get(app.url)
-    except:
+        page = requests.get(a.url)
+    except RequestException:
         print "Error to get HTTP response."
         sys.exit(1)
-    app.id = get_app_id(app.url)
+    a.id = get_app_id(a.url)
     tree = html.fromstring(page.text)
-    app.title = tree.xpath('//div[@id="title"]//h1[@itemprop="name"]/text()')[0]
-    app.category = tree.xpath('//span[@itemprop="applicationCategory"]/text()')[0]
-    app.developer = tree.xpath('//span[@itemprop="name"]/text()')[0]
-    app.price = tree.xpath('//div[@itemprop="price"]/text()')[0]
-    app.release = tree.xpath('//span[@itemprop="datePublished"]/text()')[0].strip()
-    app.version = tree.xpath('//span[@itemprop="softwareVersion"]/text()')[0]
-    app.size = tree.xpath('//span[@class="label" and text()="Size: "]/../text()')[0]
-    app.language = tree.xpath('//span[@class="label" and text()="Language: "]/../text()')[0]
-    app.compatibility = tree.xpath('//span[@itemprop="operatingSystem"]/text()')[0]
-    app.description = tree.xpath('//p[@itemprop="description"]/text()')[0]
-    return app
+    a.title = tree.xpath('//div[@id="title"]//h1[@itemprop="name"]/text()')[0]
+    a.category = tree.xpath('//span[@itemprop="applicationCategory"]/text()')[0]
+    a.developer = tree.xpath('//span[@itemprop="name"]/text()')[0]
+    a.price = tree.xpath('//div[@itemprop="price"]/text()')[0]
+    a.release = tree.xpath('//span[@itemprop="datePublished"]/text()')[0].strip()
+    a.version = tree.xpath('//span[@itemprop="softwareVersion"]/text()')[0]
+    a.size = tree.xpath('//span[@class="label" and text()="Size: "]/../text()')[0]
+    a.language = tree.xpath('//span[@class="label" and text()="Language: "]/../text()')[0]
+    a.compatibility = tree.xpath('//span[@itemprop="operatingSystem"]/text()')[0]
+    a.description = tree.xpath('//p[@itemprop="description"]/text()')[0]
+    return a
 
 
-def show_app_item(app):
+def show_app_item(a):
     x = lambda s: Color('{autogreen}%s{/autogreen}' % s)
+    y = lambda s: '{0: <20}'.format(s)
     table_data = [
-        ['{0: <20}'.format('Title'),x(app.title)],
-        ['{0: <20}'.format('URL'), Color('{autogreen}%s{/autogreen}' % app.url)],
-        ['{0: <20}'.format('Price'), Color('{autogreen}%s{/autogreen}' % app.price)],
-        ['{0: <20}'.format('Category'),Color('{autogreen}%s{/autogreen}' % app.category)],
-        ['{0: <20}'.format('Release'),Color('{autogreen}%s{/autogreen}' % app.release)],
-        ['{0: <20}'.format('Version') ,Color('{autogreen}%s{/autogreen}' % app.version)],
-        ['{0: <20}'.format('Size'),Color('{autogreen}%s{/autogreen}' % app.size)],
-        ['{0: <20}'.format('Language'),Color('{autogreen}%s{/autogreen}' % app.language)],
-        ['{0: <20}'.format('Developer'),Color('{autogreen}%s{/autogreen}' % app.developer)],
-        ['{0: <20}'.format('Compatibility'),Color('{autogreen}%s{/autogreen}' % app.compatibility)],
-        ['{0: <20}'.format('Description:'),Color('{autogreen}%s{/autogreen}' % app.description)],
+        [y('Title'), x(a.title)],
+        [y('URL'), x(a.url)],
+        [y('Price'), x(a.price)],
+        [y('Category'), x(a.category)],
+        [y('Release'), x(a.release)],
+        [y('Version'), x(a.version)],
+        [y('Size'), x(a.size)],
+        [y('Language'), x(a.language)],
+        [y('Developer'), x(a.developer)],
+        [y('Compatibility'), x(a.compatibility)],
+        [y('Description:'), x(a.description)],
     ]
     table = SingleTable(table_data)
     table.inner_column_border = False
     table.inner_heading_row_border = False
     print(table.table)
-
-
-def pre_exec():
-    """
-    Ignore the SIGINT signal by setting the handler to the standard signal handler SIG_IGN.
-    """
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
-
-
-def exec_cmd(cmd, *args):
-    cmd_str = cmd + " " + " ".join(args)
-    res = subprocess.Popen(
-        cmd_str, shell=True, bufsize=2048,
-        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=pre_exec
-    )
-    return res.communicate()[0]
 
 
 def scp_cmd(cmd):
@@ -137,7 +123,7 @@ def scp_cmd(cmd):
 
 def list_files(folder_path):
     ipa_files = [f for f in os.listdir(folder_path) if str(f).endswith(".ipa")]
-    table_data = [[' * ', Color('{autoblue}%-40s{/autoblue}'%f)] for f in ipa_files]
+    table_data = [[' * ', Color('{autoblue}%-40s{/autoblue}' % f)] for f in ipa_files]
     table = SingleTable(table_data)
     table.title = "All ipa files:"
     table.inner_column_border = False
@@ -146,7 +132,7 @@ def list_files(folder_path):
 
 
 def confirm_to_continue(question):
-    print Color('{autoyellow}%s{/autoyellow}'%question)
+    print Color('{autoyellow}%s{/autoyellow}' % question)
     answer = raw_input("Continue? (Y/n):")
     if answer.lower() == "n":
         print "Quit!"
@@ -154,7 +140,7 @@ def confirm_to_continue(question):
 
 
 def show_message(message):
-    print Color('{autoyellow}%s{/autoyellow}'%message)
+    print Color('{autoyellow}%s{/autoyellow}' % message)
     print
 
 
@@ -172,7 +158,7 @@ if __name__ == '__main__':
     show_message("Command sent to VM.")
 
     confirm_to_continue("Retrieve ipa file from VM?")
-    scp_sub_cmd = '{}@{}:"{}*" {}'.format(WORKER_USER, WORKER_IP,IPA_REMOTE_FOLDER, IPA_LOCAL_FOLDER)
+    scp_sub_cmd = '{}@{}:"{}*" {}'.format(WORKER_USER, WORKER_IP, IPA_REMOTE_FOLDER, IPA_LOCAL_FOLDER)
     scp_cmd(scp_sub_cmd)
     show_message("Copied back, listing files the local folder.")
     list_files(IPA_LOCAL_FOLDER)
