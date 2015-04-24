@@ -92,6 +92,8 @@ def get_app_item(app_url):
     a.language = tree.xpath('//*[contains(text(), "Language")]/../text()')[0]
     a.compatibility = tree.xpath('//span[@itemprop="operatingSystem"]/text()')[0]
     a.description = tree.xpath('//p[@itemprop="description"]/text()')[0]
+    if len(a.description) > 30:
+        a.description = a.description[:30] + "..."
     return a
 
 
