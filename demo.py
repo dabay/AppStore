@@ -88,7 +88,7 @@ def get_app_item(app_url):
     a.release = tree.xpath('//span[@itemprop="datePublished"]/text()')[0].strip()
     a.version = tree.xpath('//span[@itemprop="softwareVersion"]/text()')[0]
     a.size = tree.xpath('//span[@class="label" and text()="Size: "]/../text()')[0]
-    a.language = tree.xpath('//span[@class="label" and text()="Language: "]/../text()')[0]
+    a.language = tree.xpath('//*[contains(text(), "Language")]/../text()')[0]
     a.compatibility = tree.xpath('//span[@itemprop="operatingSystem"]/text()')[0]
     a.description = tree.xpath('//p[@itemprop="description"]/text()')[0]
     return a
@@ -105,7 +105,7 @@ def show_app_item(a):
         [y('Release'), x(a.release)],
         [y('Version'), x(a.version)],
         [y('Size'), x(a.size)],
-        [y('Language'), x(a.language)],
+        [y('Language(s)'), x(a.language)],
         [y('Developer'), x(a.developer)],
         [y('Compatibility'), x(a.compatibility)],
         [y('Description:'), x(a.description)],
