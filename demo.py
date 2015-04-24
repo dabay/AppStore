@@ -15,6 +15,7 @@ from requests.exceptions import RequestException
 
 
 DEMO_URL = 'https://itunes.apple.com/ie/app/myvideo-mobile-tv-hd/id557524762?mt=8'
+DEMO_URL = 'https://itunes.apple.com/ie/app/train4top/id942553423?mt=8'
 WORKER_USER = "nardev"
 WORKER_IP = "172.16.88.15"
 IPA_REMOTE_FOLDER = "/cygdrive/c/Users/nardev/Music/iTunes/iTunes\ Media/Mobile\ Applications/"
